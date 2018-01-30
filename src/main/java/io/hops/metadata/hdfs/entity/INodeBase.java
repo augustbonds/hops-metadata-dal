@@ -34,6 +34,9 @@ public class INodeBase {
   protected long fileSize;
   protected boolean isDir;
   protected int logicalTime;
+  protected int ace1Id;
+  protected int ace2Id;
+  protected boolean hasMoreAces;
 
   public INodeBase(){
 //    this.id = -1;
@@ -205,5 +208,29 @@ public class INodeBase {
 
   public void setLogicalTime(int logicalTime) {
     this.logicalTime = logicalTime;
+  }
+  
+  public int getAce1Id() {
+    return ace1Id;
+  }
+  
+  public void setAce1Id(int ace1Id) {
+    this.ace1Id = ace1Id;
+  }
+  
+  public int getAce2Id() {
+    return ace2Id;
+  }
+  
+  public void setAce2Id(int ace2Id) {
+    this.ace2Id = ace2Id;
+  }
+  
+  public boolean hasMoreAces() {
+    return hasMoreAces;
+  }
+  
+  public void setHasMoreAces(boolean hasMoreAces) {
+    this.hasMoreAces = hasMoreAces;
   }
 }
