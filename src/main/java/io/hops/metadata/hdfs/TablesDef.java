@@ -58,8 +58,8 @@ public class TablesDef {
     String FILE_STORED_IN_DB = "file_stored_in_db";
     String LOGICAL_TIME = "logical_time";
     String STORAGE_POLICY = "storage_policy";
-    String ACE_1_ID = "ace_1";
-    String ACE_2_ID = "ace_2";
+    String HAS_ACE_1 = "has_ace_1";
+    String HAS_ACE_2 = "has_ace_2";
     String HAS_MORE_ACES = "has_more_aces";
   }
 

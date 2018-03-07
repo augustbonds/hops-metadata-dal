@@ -19,6 +19,8 @@ package io.hops.metadata.hdfs.entity;
 
 import io.hops.metadata.common.FinderType;
 
+import java.util.Comparator;
+
 public class Ace {
   public enum AceType {
     USER(0),
@@ -49,9 +51,18 @@ public class Ace {
       }
     }
   }
+  public enum Order implements Comparator<Ace> {
+    
+    ByIndexAscending() {
+      @Override
+      public int compare(Ace ace, Ace t1) {
+        return t1.getIndex()-ace.getIndex();
+      }
+    }
+  }
   
   public enum Finder implements FinderType<Ace> {
-    InodeIdAndId,
+    ByInodeIdAndAceIds,
     ByInodeId;
     
     @Override
@@ -62,7 +73,7 @@ public class Ace {
     @Override
     public Annotation getAnnotated() {
       switch (this){
-        case InodeIdAndId:
+        case ByInodeIdAndAceIds:
           return Annotation.PrimaryKey;
         case ByInodeId:
           return Annotation.PrunedIndexScan;
@@ -109,19 +120,18 @@ public class Ace {
     return new PrimaryKey(inodeId, id);
   }
   
-  public Ace(int inodeId, int id){
+  public Ace(int inodeId, int index){
     this.inodeId = inodeId;
-    this.id = inodeId;
+    this.index = index;
   }
   
-  public Ace(int inodeId, int id, String subject, AceType type, boolean isDefault, int permission, int index) {
+  public Ace(int inodeId, int index, String subject, AceType type, boolean isDefault, int permission) {
     this.inodeId = inodeId;
-    this.id = id;
+    this.index = index;
     this.subject = subject;
     this.isDefault = isDefault;
     this.permission = permission;
     this.type = type;
-    this.index = index;
   }
   
 
@@ -154,9 +164,17 @@ public class Ace {
     return isDefault;
   }
   
+  public void setIsDefault(boolean isDefault){
+    this.isDefault = isDefault;
+  }
+  
   public int getPermission() {
     return permission;
   }
   
   public int getIndex() {return index;}
+  
+  public Ace copy(){
+    return new Ace(inodeId,index,subject,type,isDefault,permission);
+  }
 }

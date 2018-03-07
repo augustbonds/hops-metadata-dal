@@ -35,8 +35,8 @@ public class INodeBase {
   protected boolean isDir;
   protected int logicalTime;
   protected byte storagePolicy;
-  protected int ace1Id;
-  protected int ace2Id;
+  protected boolean hasAce1;
+  protected boolean hasAce2;
   protected boolean hasMoreAces;
 
   public INodeBase(){}
@@ -207,20 +207,20 @@ public class INodeBase {
     this.storagePolicy = storagePolicy;
   }
   
-  public int getAce1Id() {
-    return ace1Id;
+  public boolean hasAce1() {
+    return hasAce1;
   }
   
-  public void setAce1Id(int ace1Id) {
-    this.ace1Id = ace1Id;
+  public void setHasAce1(boolean hasAce1) {
+    this.hasAce1 = hasAce1;
   }
   
-  public int getAce2Id() {
-    return ace2Id;
+  public boolean hasAce2() {
+    return hasAce2;
   }
   
-  public void setAce2Id(int ace2Id) {
-    this.ace2Id = ace2Id;
+  public void setHasAce2(boolean hasAce2) {
+    this.hasAce2 = hasAce2;
   }
   
   public boolean hasMoreAces() {
