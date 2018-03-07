@@ -21,6 +21,7 @@ import io.hops.exception.StorageException;
 import io.hops.metadata.common.EntityDataAccess;
 import io.hops.metadata.hdfs.entity.Ace;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface AceDataAccess<T> extends EntityDataAccess{
@@ -29,6 +30,7 @@ public interface AceDataAccess<T> extends EntityDataAccess{
   T addAce(Ace toAdd) throws StorageException;
   List<T> getAcesByInodeId(int inodeId) throws StorageException;
   void removeAcesForInodeId(int inodeId) throws StorageException;
-  T getAceByPK(int id, int inodeId) throws StorageException;
+  T getAceByPK(int inodeId, int id) throws StorageException;
   List<T> getAcesByPKBatched(int[] ids, int inodeId) throws StorageException;
+  void prepare(Collection<T> removed, Collection<T> modified) throws StorageException;
 }

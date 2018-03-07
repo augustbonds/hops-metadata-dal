@@ -20,12 +20,13 @@ package io.hops.metadata.hdfs.entity;
 import io.hops.metadata.common.FinderType;
 
 public class Ace {
-  public static int NON_EXISTING_ACE_ID = -1;
   public enum AceType {
     USER(0),
-    GROUP(1),
-    MASK(2),
-    OTHER(3);
+    GROUP(1);
+    /*
+      Default Mask and Default Other entries are not allowed
+      Therefore, no Mask or Other entries will ever show up in an extended acl.
+     */
     
     int value;
     
@@ -43,18 +44,14 @@ public class Ace {
           return USER;
         case 1:
           return GROUP;
-        case 2:
-          return MASK;
-        case 3:
-          return OTHER;
         default:
-          throw new RuntimeException("Incorrect value " + value + ", should be 0,1,2 or 3.");
+          throw new RuntimeException("Incorrect value " + value + ", should be 0 or 1.");
       }
     }
   }
   
   public enum Finder implements FinderType<Ace> {
-    ById,
+    InodeIdAndId,
     ByInodeId;
     
     @Override
@@ -65,10 +62,10 @@ public class Ace {
     @Override
     public Annotation getAnnotated() {
       switch (this){
-        case ById:
+        case InodeIdAndId:
           return Annotation.PrimaryKey;
         case ByInodeId:
-          return Annotation.IndexScan;
+          return Annotation.PrunedIndexScan;
         default:
           throw new IllegalStateException();
       }
@@ -100,8 +97,8 @@ public class Ace {
     }
   }
   
-  private int id;
   private int inodeId;
+  private int id;
   private String subject;
   private AceType type;
   private boolean isDefault;
@@ -109,18 +106,31 @@ public class Ace {
   private int index;
   
   public PrimaryKey getPrimaryKey(){
-    return new PrimaryKey(id,inodeId);
+    return new PrimaryKey(inodeId, id);
   }
   
-  
-  public Ace(int id, int inodeId, String subject, AceType type, boolean isDefault, int permission, int index) {
-    this.id = id;
+  public Ace(int inodeId, int id){
     this.inodeId = inodeId;
+    this.id = inodeId;
+  }
+  
+  public Ace(int inodeId, int id, String subject, AceType type, boolean isDefault, int permission, int index) {
+    this.inodeId = inodeId;
+    this.id = id;
     this.subject = subject;
     this.isDefault = isDefault;
     this.permission = permission;
     this.type = type;
     this.index = index;
+  }
+  
+
+  public int getInodeId() {
+    return inodeId;
+  }
+  
+  public void setInodeId(int inodeId){
+    this.inodeId = inodeId;
   }
   
   public int getId() {
@@ -131,9 +141,6 @@ public class Ace {
     this.id = id;
   }
   
-  public int getInodeId() {
-    return inodeId;
-  }
   
   public String getSubject() {
     return subject;
