@@ -328,12 +328,11 @@ public class TablesDef {
   
   public interface AcesTableDef {
     String TABLE_NAME = "hdfs_aces";
-    String ID = "id";
     String INODE_ID = "inode_id";
+    String INDEX = "index";
     String SUBJECT = "subject";
     String TYPE = "type";
     String IS_DEFAULT = "is_default";
     String PERMISSION = "permission";
-    String INDEX = "index";
   }
 }

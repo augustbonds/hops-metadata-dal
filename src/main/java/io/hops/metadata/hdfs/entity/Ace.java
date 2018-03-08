@@ -84,40 +84,39 @@ public class Ace {
   }
   
   public static class PrimaryKey{
-    public final int id;
     public final int inodeId;
+    public final int index;
     
-    public PrimaryKey(int id, int inodeId){
-      this.id = id;
+    public PrimaryKey(int inodeId, int index){
+      this.index = index;
       this.inodeId = inodeId;
     }
   
     @Override
     public int hashCode() {
       //todo what is the go to hash mechanism that is consistent with equals?
-      return id * inodeId;
+      return index * inodeId;
     }
   
     @Override
     public boolean equals(Object obj) {
       if (obj instanceof PrimaryKey){
         PrimaryKey other = (PrimaryKey) obj;
-        return id == other.id && inodeId == other.inodeId;
+        return inodeId == other.inodeId && index == other.index;
       }
       return false;
     }
   }
   
   private int inodeId;
-  private int id;
+  private int index;
   private String subject;
   private AceType type;
   private boolean isDefault;
   private int permission;
-  private int index;
   
   public PrimaryKey getPrimaryKey(){
-    return new PrimaryKey(inodeId, id);
+    return new PrimaryKey(inodeId, index);
   }
   
   public Ace(int inodeId, int index){
@@ -142,15 +141,6 @@ public class Ace {
   public void setInodeId(int inodeId){
     this.inodeId = inodeId;
   }
-  
-  public int getId() {
-    return id;
-  }
-  
-  public void setId(int id){
-    this.id = id;
-  }
-  
   
   public String getSubject() {
     return subject;

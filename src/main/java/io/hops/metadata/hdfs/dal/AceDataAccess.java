@@ -28,5 +28,5 @@ public interface AceDataAccess<T> extends EntityDataAccess{
   
   List<T> getAcesByInodeId(int inodeId) throws StorageException;
   List<T> getAcesByPKBatched(int inodeId, int[] ids) throws StorageException;
-  void prepare(Collection<T> removed, Collection<T> modified) throws StorageException;
+  void prepare(Collection<T> removed, Collection<T> newed, Collection<T> modified) throws StorageException;
 }
