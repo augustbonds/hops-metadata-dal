@@ -24,11 +24,9 @@ import java.util.Comparator;
 public class Ace {
   public enum AceType {
     USER(0),
-    GROUP(1);
-    /*
-      Default Mask and Default Other entries are not allowed
-      Therefore, no Mask or Other entries will ever show up in an extended acl.
-     */
+    GROUP(1),
+    MASK(2),
+    OTHER(3);
     
     int value;
     
@@ -46,8 +44,12 @@ public class Ace {
           return USER;
         case 1:
           return GROUP;
+        case 2:
+          return MASK;
+        case 3:
+          return OTHER;
         default:
-          throw new RuntimeException("Incorrect value " + value + ", should be 0 or 1.");
+          throw new RuntimeException("Incorrect value " + value + ", should be 0, 1, 2 or 3;");
       }
     }
   }
@@ -62,8 +64,7 @@ public class Ace {
   }
   
   public enum Finder implements FinderType<Ace> {
-    ByInodeIdAndAceIds,
-    ByInodeId;
+    ByInodeIdAndIndices;
     
     @Override
     public Class getType() {
@@ -73,10 +74,8 @@ public class Ace {
     @Override
     public Annotation getAnnotated() {
       switch (this){
-        case ByInodeIdAndAceIds:
+        case ByInodeIdAndIndices:
           return Annotation.PrimaryKey;
-        case ByInodeId:
-          return Annotation.PrunedIndexScan;
         default:
           throw new IllegalStateException();
       }
@@ -114,10 +113,6 @@ public class Ace {
   private AceType type;
   private boolean isDefault;
   private int permission;
-  
-  public PrimaryKey getPrimaryKey(){
-    return new PrimaryKey(inodeId, index);
-  }
   
   public Ace(int inodeId, int index){
     this.inodeId = inodeId;
