@@ -58,7 +58,7 @@ public class Ace {
     ByIndexAscending() {
       @Override
       public int compare(Ace ace, Ace t1) {
-        return t1.getIndex()-ace.getIndex();
+        return ace.getIndex()-t1.getIndex();
       }
     }
   }
