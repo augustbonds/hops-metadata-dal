@@ -30,6 +30,8 @@
  */
 package io.hops.metadata.hdfs.entity;
 
+import java.util.Objects;
+
 public class INodeIdentifier implements Comparable<INodeIdentifier>{
 
   Long inodeID;
@@ -42,7 +44,7 @@ public class INodeIdentifier implements Comparable<INodeIdentifier>{
   public INodeIdentifier() {
     this(-1L, null, null, null);
   }
-  
+
   public INodeIdentifier(Long inodeID) {
     this(inodeID, null, null, null);
   }
@@ -117,19 +119,9 @@ public class INodeIdentifier implements Comparable<INodeIdentifier>{
       return false;
     }
     final INodeIdentifier other = (INodeIdentifier) obj;
-    if (this.inodeID != other.inodeID &&
-        (this.inodeID == null || !this.inodeID.equals(other.inodeID))) {
-      return false;
-    }
-    if (this.pid != other.pid &&
-        (this.pid == null || !this.pid.equals(other.pid))) {
-      return false;
-    }
-    if ((this.name == null) ? (other.name != null) :
-        !this.name.equals(other.name)) {
-      return false;
-    }
-    return true;
+    return Objects.equals(this.inodeID, other.inodeID) &&
+            Objects.equals(this.pid, other.pid) &&
+            Objects.equals(this.name, other.name);
   }
 
   @Override
@@ -137,7 +129,7 @@ public class INodeIdentifier implements Comparable<INodeIdentifier>{
     return "INodeIdentifier{" + "inodeID=" + inodeID + ", pid=" + pid +
         ", name=" + name + '}';
   }
-  
+
   @Override
   public int compareTo(INodeIdentifier other){
     return this.inodeID.compareTo(other.inodeID);
